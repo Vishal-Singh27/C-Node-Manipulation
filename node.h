@@ -17,3 +17,7 @@ void node_reverse(Node *node);
 void node_sort(Node *node);
 
 void node_printout(Node *node);
+
+void node_search(Node *node, int num);
+
+int *nodetoarr(Node *node);
