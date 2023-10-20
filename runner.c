@@ -4,8 +4,14 @@
 
 int main(void) 
 {
-    // Declaring the choice variable
-    int choice;
+    /*
+        Getting input of the node
+    */
+
+    /*
+        Menu Stuff
+    */
+    int choice; // Declaring the variable to store user's choice
 
     // Getting the user's choice
     do 
@@ -29,4 +35,20 @@ int main(void)
         }
     }
     while (choice < 1 || choice > 9);
+
+    /*
+        Performing the action that user wants to perform
+    */
+
+    /*
+        Printing out the resultant node
+    */
+
+    /*
+        Freeing the node
+    */
+
+    /*
+        Returning the main function
+    */
 }
