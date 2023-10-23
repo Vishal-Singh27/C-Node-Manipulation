@@ -16,3 +16,5 @@ void node_printout(Node *node);
 void node_search(Node *node, int num);
 
 int *nodetoarr(Node *node);
+
+void free_node(Node *node);
