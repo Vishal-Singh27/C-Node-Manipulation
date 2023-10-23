@@ -1,5 +1,4 @@
 #include "node.h"
-#include <stdio.h>
 
 void node_insertion(Node *node);
 
@@ -11,9 +10,25 @@ void node_reverse(Node *node);
 
 void node_sort(Node *node);
 
-void node_printout(Node *node);
+void node_printout(Node *node) {
+    while (node != NULL) {
+        printf("%i", (int) node->num);
+        node = node->next;
+    }
+}
 
-void node_search(Node *node, int num);
+bool node_search(Node *node, int num)
+{
+    while (node != NULL) {
+        if (num == node->num) {
+            return true;
+        }
+
+        node = node->next;
+    }
+
+    return false;
+}
 
 int node_numbers(Node *node)
 {
