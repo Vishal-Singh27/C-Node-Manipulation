@@ -3,6 +3,7 @@ typedef struct Node
     struct Node *next;
     struct Node *back;
     struct Node *start;
+    struct Node *end;
     int num;
 } Node;
 
@@ -23,3 +24,5 @@ void node_search(Node *node, int num);
 int *nodetoarr(Node *node);
 
 void free_node(Node *node);
+
+int node_numbers(Node *node);
