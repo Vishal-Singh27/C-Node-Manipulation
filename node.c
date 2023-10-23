@@ -40,12 +40,14 @@ int node_addition(Node *node) {
         sum += node->num;
         node = node->next;
     }
+
+    return sum;
 }
 
 void node_reverse(Node *node) {
     Node *tmpnode = node->end;
 
-    while (node != tmpnode) {
+    while (node->back != tmpnode && node != tmpnode) {
         int tmp = node->num;
         node->num = tmpnode->num;
         tmpnode->num = tmp;
@@ -60,6 +62,11 @@ void node_sort(Node *node) {
     Node *tmpnode = node;
     Node *tmpnode1 = node->end;
 
+    if (nodenavigate == NULL || tmpnode == NULL || tmpnode1 == NULL) {
+        printf("Technical error.....\n");
+        return;
+    }
+    
     while (nodenavigate != nodenavigate->end) {
         while (tmpnode != tmpnode1 )
         {
@@ -74,12 +81,13 @@ void node_sort(Node *node) {
 
         nodenavigate = nodenavigate->next;
         tmpnode1 = tmpnode1->back;
+        tmpnode = node;
     }
 }
 
 void node_printout(Node *node) {
     while (node != NULL) {
-        printf("%i", (int) node->num);
+        printf("%i\n", (int) node->num);
         node = node->next;
     }
 }
@@ -110,11 +118,13 @@ int node_numbers(Node *node){
 int *nodetoarr(Node *node) {
     int *arr = calloc(sizeof(int), node_numbers(node));
     int i = 0;
-
     while (node != NULL) {
         arr[i] = node->num;
         i++;
+        node = node->next;
     }
+
+    return arr;
 }
 
 void free_node(Node *node) {
