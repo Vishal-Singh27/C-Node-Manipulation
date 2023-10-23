@@ -11,9 +11,9 @@ typedef struct Node
     int num;
 } Node;
 
-void node_insertion(Node *node);
+void node_insertion(Node *node, int index, int num);
 
-void node_deletion(Node *node, int num);
+void node_deletion(Node *node, int index);
 
 int node_addition(Node *node);
 

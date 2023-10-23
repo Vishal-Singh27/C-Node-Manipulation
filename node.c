@@ -1,13 +1,35 @@
 #include "node.h"
 
-void node_insertion(Node *node);
+void node_insertion(Node *node, int index, int num) {
+    int count = 1;
+    Node *newnode;
 
-void node_deletion(Node *node, int num) {
-    while (node->back->num != num) {
-        if (node->num == num) {
-            node->back->next = node->next;
-            free (node);
+    while (node != NULL) {
+        if (count == index) {
+            newnode = malloc(sizeof(Node));
+            newnode->num = num;
+            node->back->next = newnode;
+            newnode->back = node->back;
+            newnode->next = node;
+            node->back = newnode;
+            return;
         }
+
+        count++;
+        node = node->next;
+    }
+}
+
+void node_deletion(Node *node, int index) {
+    int count = 1;
+    while (node != NULL) {
+        if (count == index) {
+            node->back->next = node->next;
+            free(node);
+            return;
+        }
+        count++;
+        node = node->next;
     }
 }
 
