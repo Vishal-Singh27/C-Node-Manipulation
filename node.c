@@ -2,11 +2,36 @@
 
 void node_insertion(Node *node);
 
-void node_deletion(Node *node);
+void node_deletion(Node *node, int num) {
+    while (node->back->num != num) {
+        if (node->num == num) {
+            node->back->next = node->next;
+            free (node);
+        }
+    }
+}
 
-void node_addition(Node *node);
+int node_addition(Node *node) {
+    int sum = 0;
 
-void node_reverse(Node *node);
+    while (node != NULL) {
+        sum += node->num;
+        node = node->next;
+    }
+}
+
+void node_reverse(Node *node) {
+    Node *tmpnode = node->end;
+
+    while (node != tmpnode) {
+        int tmp = node->num;
+        node->num = tmpnode->num;
+        tmpnode->num = tmp;
+
+        node = node->next;
+        tmpnode = tmpnode->back;
+    }
+}
 
 void node_sort(Node *node) {
     Node *nodenavigate = node;

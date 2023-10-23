@@ -13,9 +13,9 @@ typedef struct Node
 
 void node_insertion(Node *node);
 
-void node_deletion(Node *node);
+void node_deletion(Node *node, int num);
 
-void node_addition(Node *node);
+int node_addition(Node *node);
 
 void node_reverse(Node *node);
 
@@ -23,7 +23,7 @@ void node_sort(Node *node);
 
 void node_printout(Node *node);
 
-void node_search(Node *node, int num);
+bool node_search(Node *node, int num);
 
 int *nodetoarr(Node *node);
 
