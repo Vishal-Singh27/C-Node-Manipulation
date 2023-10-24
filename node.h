@@ -40,7 +40,7 @@ void free_node(Node *node);
 // Now the function's definitions
 void node_insertion(Node *node, int index, int num) {
     int total_nodes = node_numbers(getandupdate_nodestart(node));
-    if (index > total_nodes + 1) {
+    if (index > total_nodes + 1 || index < 1) {
         printf("\nInsertion not possible!\n");
         return;
     }
@@ -76,7 +76,7 @@ void node_insertion(Node *node, int index, int num) {
 }
 
 void node_deletion(Node *node, int index) {
-    if (node_numbers(getandupdate_nodestart(node)) < index) {
+    if (node_numbers(getandupdate_nodestart(node)) < index || 1 > index) {
         printf("\nDeletion not possible!\n");
         return;
     }
@@ -113,6 +113,7 @@ void node_deletion(Node *node, int index) {
         }
 
         node = node->next;
+        count++;
     }
 }
 
