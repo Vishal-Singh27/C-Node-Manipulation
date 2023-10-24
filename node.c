@@ -129,16 +129,13 @@ int *nodetoarr(Node *node) {
 
 void free_node(Node *node) {
     node = node->end;
+    Node *tmpnode;
 
     while (node != NULL) {
-        node = node->back;
-
-        if (node == NULL) {
-            return;
-        }
-
-        free(node->next);
+        tmpnode = node->back;
+        free(node);
+        node = tmpnode;
     }
-
     return;
+
 }

@@ -19,7 +19,7 @@ int main(void)
     while (true) {
         char *input = get_string("Enter a number(Type 'stop' to stop inputting numbers): ");
 
-        if (strcmp(input, "Stop") == 0 || strcmp(input, "stop") == 0 || strcmp(input, ":wq") == 0) {
+        if (strcmp(input, "Stop") == 0 || strcmp(input, "stop") == 0) {
             node->next = NULL;
             end = node;
 
