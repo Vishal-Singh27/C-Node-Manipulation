@@ -20,6 +20,10 @@ int main(void)
         char *input = get_string("Enter a number(Type 'stop' to stop inputting numbers): ");
 
         if (strcmp(input, "Stop") == 0 || strcmp(input, "stop") == 0) {
+            if (node == NULL) {
+                printf("No node provided!\n");
+                exit(0);
+            }
             node->next = NULL;
             end = node;
 
@@ -28,7 +32,7 @@ int main(void)
                 node->start = start;
                 node = node->back;
             }
-
+            free(input);
             break;
         }
 
@@ -46,6 +50,7 @@ int main(void)
                 node = node->next;
                 node->num = atoi(input);
             }
+            free(input);
         }
     }
     node = start;
@@ -91,6 +96,7 @@ int main(void)
             break;
         case 3:
             printf("Addition of all no. in node: %i\n", node_addition(node));
+            
             free_node(node);
             return 0;
         case 4:
@@ -110,32 +116,38 @@ int main(void)
             else {
                 printf("No the no. is not in the node\n");
                 free_node(node);
+                
                 return 0;
             }
-        case 8:
-            print_arr(node_numbers(node), nodetoarr(node));
+        case 8: {
+            int *arr = nodetoarr(node);
+            print_arr(node_numbers(node), arr);
             free_node(node);
+            free(arr);
             return 0;
+        }
 
         case 9:
             printf("The no. of nodes are %i\n", node_numbers(node));
         
         default:
             free_node(node);
+            
             exit(0);
     }
 
     /*
         Printing out the resultant node
     */
+    node = getandupdate_nodestart(node);
+    update_nodeend(node);
     printf("\nResultant Node: \n");
     node_printout(node);
 
     /*
-        Freeing the node
+        Freeing the allocated things
     */
     free_node(node);
-
     /*
         Returning the main function
     */

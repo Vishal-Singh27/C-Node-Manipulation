@@ -30,3 +30,7 @@ int *nodetoarr(Node *node);
 void free_node(Node *node);
 
 int node_numbers(Node *node);
+
+Node *getandupdate_nodestart(Node *node);
+
+void update_nodeend(Node *node);

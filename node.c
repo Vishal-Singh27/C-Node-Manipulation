@@ -1,6 +1,22 @@
 #include "node.h"
 
 void node_insertion(Node *node, int index, int num) {
+    int total_nodes = node_numbers(getandupdate_nodestart(node));
+    if (index > total_nodes + 1) {
+        printf("\nInsertion not possible!\n");
+        return;
+    }
+
+    else if (index == total_nodes + 1) {
+        update_nodeend(node);
+        Node *newnode = malloc(sizeof(Node));
+        newnode->num = num;
+        node->end->next = newnode;
+        newnode->next = NULL;
+        newnode->back = node->end;
+        return;
+    }
+
     int count = 1;
     Node *newnode;
 
@@ -8,7 +24,8 @@ void node_insertion(Node *node, int index, int num) {
         if (count == index) {
             newnode = malloc(sizeof(Node));
             newnode->num = num;
-            node->back->next = newnode;
+            if (node->back != NULL)
+                node->back->next = newnode;
             newnode->back = node->back;
             newnode->next = node;
             node->back = newnode;
@@ -21,11 +38,24 @@ void node_insertion(Node *node, int index, int num) {
 }
 
 void node_deletion(Node *node, int index) {
+    if (node_numbers(getandupdate_nodestart(node)) < index) {
+        printf("\nDeletion not possible!\n");
+        return;
+    }
     int count = 1;
+    node = node->start;
     while (node != NULL) {
         if (count == index) {
-            node->back->next = node->next;
-            free(node);
+            Node *remnode = node;
+            if (node->back != NULL) {
+                remnode->back->next = node->next;
+                node = node->next;
+            }
+            else {
+                remnode->next->back = NULL;
+                node = node->next;
+            }
+            free(remnode);
             return;
         }
         count++;
@@ -138,4 +168,53 @@ void free_node(Node *node) {
     }
     return;
 
+}
+
+Node *getandupdate_nodestart(Node *node) {
+    if (node == NULL) {
+        return node;
+    }
+
+    else if (node->back == NULL) {
+        return node;
+    }
+
+    Node *start;
+    while (node->back != NULL) {
+        node = node->back;
+
+        if (node->back == NULL) {
+            start = node;
+        }
+    }
+
+    // Now updating start in every nodes
+    node = start;
+    while (node != NULL) {
+        node->start = start;
+        node = node->next;
+    }
+    return start;
+}
+
+void update_nodeend(Node *node) {
+    if (node == NULL) {
+        return;
+    }
+    node = node->start;
+    Node *end;
+    while (node->next != NULL) {
+        node = node->next;
+
+        if (node->next == NULL) {
+            end = node;
+        }
+    }
+
+    // Now updating start in every nodes
+    node = end;
+    while (node != NULL) {
+        node->end = end;
+        node = node->back;
+    }
 }
