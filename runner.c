@@ -91,9 +91,17 @@ int main(void)
         case 1:
             node_insertion(node, get_int("Enter the index: "), get_int("Enter the number to insert: "));
             break;
-        case 2:
-            node_deletion(node, get_int("Enter the index: "));
+        case 2: {
+            tmpnode = node;
+            int index = get_int("Enter the index: ");
+            if (index == 1) {
+                tmpnode = node->next;
+            }
+
+            node_deletion(node, index);
+            node = tmpnode;
             break;
+        }
         case 3:
             printf("Addition of all no. in node: %i\n", node_addition(node));
             
