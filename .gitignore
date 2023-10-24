@@ -53,3 +53,5 @@ dkms.conf
 
 # Ignore the "tryying" files
 tryying*
+
+.vscode*

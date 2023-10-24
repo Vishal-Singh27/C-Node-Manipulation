@@ -37,6 +37,7 @@ void update_nodeend(Node *node);
 
 void free_node(Node *node);
 
+// Now the function's definitions
 void node_insertion(Node *node, int index, int num) {
     int total_nodes = node_numbers(getandupdate_nodestart(node));
     if (index > total_nodes + 1) {
@@ -79,23 +80,38 @@ void node_deletion(Node *node, int index) {
         printf("\nDeletion not possible!\n");
         return;
     }
-    int count = 1;
+    
     node = node->start;
+
+    int count = 1;
+    
     while (node != NULL) {
         if (count == index) {
-            Node *remnode = node;
-            if (node->back != NULL) {
-                remnode->back->next = node->next;
-                node = node->next;
+            if (node == node->start) {
+                Node *tmpnode = node->next;
+                tmpnode->back = NULL;
+                free(node);
+                node = getandupdate_nodestart(tmpnode);
+                return;
             }
+
+            else if (node == node->end) {
+                Node *tmpnode = node->end->back;
+                tmpnode->next = NULL;
+                free(node);
+                update_nodeend(tmpnode);
+                printf("Yay");
+                return;
+            }
+
             else {
-                remnode->next->back = NULL;
-                node = node->next;
+                node->back->next = node->next;
+                node->next->back = node->back;
+                free(node);
+                return;
             }
-            free(remnode);
-            return;
         }
-        count++;
+
         node = node->next;
     }
 }
@@ -239,7 +255,7 @@ void update_nodeend(Node *node) {
         return;
     }
     node = node->start;
-    Node *end;
+    Node *end = node;
     while (node->next != NULL) {
         node = node->next;
 
