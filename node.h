@@ -11,6 +11,19 @@ typedef struct Node
     int num;
 } Node;
 
+// Declaring the functions
+Node *add_to_node(Node *node, int num);
+
+void node_printout(Node *node);
+
+int node_numbers(Node *node);
+
+void update_nodestart(Node *node);
+
+void update_nodeend(Node *node);
+
+void free_node(Node *node);
+
 void node_insertion(Node *node, int index, int num);
 
 void node_deletion(Node *node, int index);
@@ -21,25 +34,33 @@ void node_reverse(Node *node);
 
 void node_sort(Node *node);
 
-void node_printout(Node *node);
-
 bool node_search(Node *node, int num);
 
 int *nodetoarr(Node *node);
 
-void free_node(Node *node);
+// Defining the functions
+Node *add_to_node(Node *node, int num) {
+    if (node == NULL) {
+        node = malloc(sizeof(Node));
+        node->start = node;
+    }
 
-int node_numbers(Node *node);
+    else {
+        while (node->next != NULL) {
+            node = node->next;
+        }
+        node->next = malloc(sizeof(Node));
+        node->next->back = node;
+        node = node->next;
+    }
 
-Node *getandupdate_nodestart(Node *node);
-
-void update_nodeend(Node *node);
-
-void free_node(Node *node);
+    node->num = num;
+    return node;
+}
 
 // Now the function's definitions
 void node_insertion(Node *node, int index, int num) {
-    int total_nodes = node_numbers(getandupdate_nodestart(node));
+    int total_nodes = node_numbers(node->start);
     if (index > total_nodes + 1 || index < 1) {
         printf("\nInsertion not possible!\n");
         return;
@@ -76,22 +97,22 @@ void node_insertion(Node *node, int index, int num) {
 }
 
 void node_deletion(Node *node, int index) {
-    if (node_numbers(getandupdate_nodestart(node)) < index || 1 > index) {
+    if (node_numbers(node->start) < index || 1 > index) {
         printf("\nDeletion not possible!\n");
         return;
     }
-    
+
     node = node->start;
 
     int count = 1;
-    
+
     while (node != NULL) {
         if (count == index) {
             if (node == node->start) {
                 Node *tmpnode = node->next;
                 tmpnode->back = NULL;
                 free(node);
-                node = getandupdate_nodestart(tmpnode);
+                update_nodestart(tmpnode);
                 return;
             }
 
@@ -150,7 +171,7 @@ void node_sort(Node *node) {
         printf("Technical error.....\n");
         return;
     }
-    
+
     while (nodenavigate != nodenavigate->end) {
         while (tmpnode != tmpnode1 )
         {
@@ -212,6 +233,11 @@ int *nodetoarr(Node *node) {
 }
 
 void free_node(Node *node) {
+    if (node == NULL) {
+        printf("\nCannot free a NULL node\n\n");
+        return;
+    }
+
     node = node->end;
     Node *tmpnode;
 
@@ -224,16 +250,26 @@ void free_node(Node *node) {
 
 }
 
-Node *getandupdate_nodestart(Node *node) {
+Node *getnodestart(Node *node) {
     if (node == NULL) {
-        return node;
+        printf("\nNode is already NULL when getting the starting point in node!\n\n");
+        exit(1);
     }
 
-    else if (node->back == NULL) {
-        return node;
+    while (node->back != NULL) {
+        node = node->back;
     }
 
-    Node *start;
+    return node;
+}
+
+void update_nodestart(Node *node) {
+    if (node == NULL) {
+        printf("\nNode is already NULL when updating start in node!\n\n");
+        exit(1);
+    }
+    Node *start = NULL;
+
     while (node->back != NULL) {
         node = node->back;
 
@@ -241,34 +277,36 @@ Node *getandupdate_nodestart(Node *node) {
             start = node;
         }
     }
+    start = node;
 
     // Now updating start in every nodes
-    node = start;
     while (node != NULL) {
         node->start = start;
         node = node->next;
     }
-    return start;
+
+    return;
 }
 
 void update_nodeend(Node *node) {
     if (node == NULL) {
-        return;
+        printf("\nNode is NULL when updating end in node!\n\n");
+        exit(1);
     }
+
     node = node->start;
     Node *end = node;
+
     while (node->next != NULL) {
         node = node->next;
-
-        if (node->next == NULL) {
-            end = node;
-        }
     }
 
+    end = node;
+
     // Now updating start in every nodes
-    node = end;
     while (node != NULL) {
         node->end = end;
         node = node->back;
     }
+    return;
 }

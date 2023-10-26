@@ -9,8 +9,6 @@ int main(void)
         Declaring the node
     */
     Node *node = NULL;
-    Node *start;
-    Node *end;
 
     /*
         Getting input of the node
@@ -20,41 +18,22 @@ int main(void)
         char *input = get_string("Enter a number(Type 'stop' to stop inputting numbers): ");
 
         if (strcmp(input, "Stop") == 0 || strcmp(input, "stop") == 0) {
-            if (node == NULL) {
-                printf("No node provided!\n");
-                exit(0);
-            }
-            node->next = NULL;
-            end = node;
-
-            while (node != NULL) {
-                node->end = end;
-                node->start = start;
-                node = node->back;
-            }
-            free(input);
             break;
         }
 
         else {
-            if (node == NULL) {
-                node = malloc(sizeof(Node));
-                start = node;
-                node->back = NULL;
-                node->num = atoi(input);
+            node = add_to_node(node, atoi(input));
+
+            if (node->back == NULL) {
+                tmpnode = node;
             }
-            
-            else {
-                node->next = calloc(sizeof(Node), 1);
-                node->next->back = node;
-                node = node->next;
-                node->num = atoi(input);
-            }
-            free(input);
         }
     }
-    node = start;
 
+    node = tmpnode;
+
+    update_nodestart(node);
+    update_nodeend(node);
     /*
         Menu Stuff
     */
@@ -147,8 +126,8 @@ int main(void)
     /*
         Printing out the resultant node
     */
-    node = getandupdate_nodestart(node);
-    update_nodeend(node);
+    node = getnodestart(node);
+
     printf("\nResultant Node: \n");
     node_printout(node);
 
