@@ -12,14 +12,16 @@ int get_intfromstart(char *txt, int start);
 int get_intfromstarttoend(char *txt, int start, int end);
 bool check_float(char *numstr);
 float get_float(char *txt);
-char *get_string(char *txt);
+char *get_string(char *txt, int len);
 char get_char(char *txt);
 void print_arr(int arrlen, int *arr);
 
 // This function checks if a string is a valid int
 bool check_int(char *numstr) {
+    // Putting the length of the "numstr" in a variable
     int stringlen = strlen(numstr);
 
+    // Checking if the string is an integer
     if (isdigit(numstr[0]) == 0 && numstr[0] != '-') {
         return false;
     }
@@ -31,33 +33,6 @@ bool check_int(char *numstr) {
     }
 
     // If program comes to this point then it is an integer
-    return true;
-}
-
-// Helps in getting input of a float
-bool check_float(char *numstr) {
-    int stringlen = strlen(numstr);
-    uint16_t dotcount = 0;
-
-    if (isdigit(numstr[0]) == 0 && numstr[0] != '-' && numstr[0] != '.') {
-        return false;
-    }
-
-    if (numstr[0] == '.') {
-        dotcount = 1;
-    }
-
-    for (int i = 1; i < stringlen; i++) {
-        if (isdigit(numstr[i]) == 0 && (dotcount == 1 && numstr[i] == '.')) {
-            return false;
-        }
-
-        else if (numstr[i] == '.') {
-            dotcount = 1;
-        }
-    }
-
-    // If program comes to this point then it is a float
     return true;
 }
 
@@ -129,6 +104,33 @@ int get_intfromstarttoend(char *txt, int start, int end) {
     return atoi(numstr);
 }
 
+// Helps in getting input of a float
+bool check_float(char *numstr) {
+    int stringlen = strlen(numstr);
+    uint16_t dotcount = 0;
+
+    if (isdigit(numstr[0]) == 0 && numstr[0] != '-' && numstr[0] != '.') {
+        return false;
+    }
+
+    if (numstr[0] == '.') {
+        dotcount = 1;
+    }
+
+    for (int i = 1; i < stringlen; i++) {
+        if (isdigit(numstr[i]) == 0 && (dotcount == 1 && numstr[i] == '.')) {
+            return false;
+        }
+
+        else if (numstr[i] == '.') {
+            dotcount = 1;
+        }
+    }
+
+    // If program comes to this point then it is a float
+    return true;
+}
+
 // This function helps in getting input of an float
 float get_float(char *txt) 
 {
@@ -146,34 +148,40 @@ float get_float(char *txt)
         goto loop;
     }
 
+    // Returning the float
     return atof(numstr);
 }
 
 // This helps in getting input of a string
-char *get_string(char *txt)
+char *get_string(char *txt, int len)
 {
-    char *str = calloc(sizeof(char *), 200);
+    char *str = calloc(sizeof(char), len + 1);
 
     printf("%s", txt);
-    scanf("%s", str);
+    scanf("%[^\n]", str);
+    str[strlen(str)] = '\0';
 
+    // Returning the string
     return str;
 }
 
-// This helps in getting input of a string
+// This helps in getting input of a char
 char get_char(char *txt)
 {
-    char *str = calloc(sizeof(char *), 3);
+    char *str = calloc(sizeof(char), 3);
 
+    // Using goto type loop for making sure user doesnt enter more than 1 character
     loop:
     printf("%s", txt);
     scanf("%s", str);
 
+    // If user enter more than one character
     if (strlen(str) > 1) {
         printf("\nJust enter one character!!\n\n");
         goto loop;
     }
 
+    // Returning the character
     return str[0];
 }
 

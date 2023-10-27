@@ -15,7 +15,7 @@ int main(void)
     */
     Node *tmpnode = NULL;
     while (true) {
-        char *input = get_string("Enter a number(Type 'stop' to stop inputting numbers): ");
+        char *input = get_string("Enter a number(Type 'stop' to stop inputting numbers): ", 30);
 
         if (strcmp(input, "Stop") == 0 || strcmp(input, "stop") == 0) {
             break;
